@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+*{
+  box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    background-color: #f8f8f8;
+  }
+  
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  
+  .slide {
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: white;
+    padding: 4rem;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+  }
+  
+  .slide__controls {
+    display: flex;
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    justify-content: end;
+    gap: 4px;
+    pointer-events: all;
+  }
+  
+  .slide__controls button {
+    font-size: 2rem;
+  }
+  

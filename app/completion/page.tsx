@@ -1,35 +1,71 @@
-'use client';
+import { NextResponse } from "next/server";
+import { toast } from "sonner";
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-import { useCompletion } from 'ai/react';
+export async function POST(req: Request) {
+  // Extract the `prompt` from the body of the request
+  const position = { x: 0, y: 0 };
+  try {
+    const { prompt } = await req.json();
 
-export default function Chat() {
-  const { completion, input, handleInputChange, handleSubmit, error, data } =
-    useCompletion();
+    // optional: use stream data
 
-  return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      <h4 className="text-xl font-bold text-gray-900 md:text-xl pb-4">
-        useCompletion Example
-      </h4>
-      {data && (
-        <pre className="p-4 text-sm bg-gray-100">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      )}
-      {error && (
-        <div className="fixed top-0 left-0 w-full p-4 text-center bg-red-500 text-white">
-          {error.message}
-        </div>
-      )}
-      {completion}
-      <form onSubmit={handleSubmit}>
-        <input
-          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
-      </form>
-    </div>
-  );
+    // const result = await streamText({
+    //   model: openai('gpt-3.5-turbo-instruct'),
+    //   maxTokens: 1000,
+    //   prompt,
+    //   onFinish: () => {
+    //     data.append('call completed');
+    //     data.close();
+    //   },
+    // });
+    // const result= await generateText({
+    //   model: openai('gpt-3.5-turbo-instruct'),
+    //   maxTokens: 1000,
+    //   prompt,
+
+    // });
+    const result = {
+      "01": {
+        right: "02",
+        source:
+          "\n# Slide 1\n\n- This is the first slide\n- It has a right arrow to go to the next slide\n",
+      },
+      "02": {
+        left: "01",
+        right: "04",
+        source:
+          "\n# Slide 2\n\n- This is the second slide\n- It has a left arrow to go back to the first slide\n- It has an up arrow to go to the third slide\n- It has a right arrow to go to the fourth slide\n",
+      },
+      "03": {
+        down: "02",
+        source:
+          "\n# Slide 3\n\n- This is the third slide\n- It has a down arrow to go back to the second slide\n",
+      },
+      "04": {
+        left: "02",
+        right: "05",
+        source:
+          "\n# Slide 4\n\n- This is the fourth slide\n- It has a left arrow to go back to the second slide\n",
+      },
+      "05": {
+        left: "04",
+        source:
+          "\n# Slide 4\n\n- This is the fourth slide\n- It has a left arrow to go back to the second slide\n",
+      },
+    };
+    console.log("result", result);
+
+    // Respond with the stream
+    console.log("esperando...");
+
+    await sleep(1000);
+    return NextResponse.json({ data: result, success: false });
+  } catch (error) {
+    NextResponse.json({
+      error,
+    });
+  }
 }

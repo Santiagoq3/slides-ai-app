@@ -1,11 +1,11 @@
-import './globals.css';
-import { Inter } from 'next/font/google';
+import "./globals.css";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Vercel AI SDK - Next.js OpenAI Examples',
-  description: 'Examples of using the Vercel AI SDK with Next.js and OpenAI.',
+  title: "Vercel AI SDK - Next.js OpenAI Examples",
+  description: "Examples of using the Vercel AI SDK with Next.js and OpenAI.",
 };
 
 export default function RootLayout({
@@ -15,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        {children}
+      </body>
     </html>
   );
 }
